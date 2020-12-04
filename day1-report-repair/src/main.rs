@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fs};
+use std::{collections::HashMap, fs, time::Instant};
 
 fn main() {
     println!("Day 1 - Report Repair");
@@ -14,8 +14,11 @@ fn main() {
         .map(|s| s.parse::<u32>().unwrap())
         .collect();
 
-    // partone(&expense_data);
+    partone(&expense_data);
+
+    let now = Instant::now();
     parttwo(&expense_data);
+    println!("{}s", now.elapsed().as_secs_f32());
 }
 
 fn partone(exp_data: &Vec<u32>) {
