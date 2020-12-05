@@ -39,18 +39,19 @@ struct PwdData {
     pwd: String,
 }
 
+// Convert a vector of strings into a custom struct
 fn process(pwd_data: &Vec<String>) -> PwdData {
     let pwd_policy = pwd_data.get(0).unwrap().split('-').collect::<Vec<_>>();
-    let min_let = pwd_policy.get(0).unwrap().parse::<usize>().unwrap();
-    let max_let = pwd_policy.get(1).unwrap().parse::<usize>().unwrap();
+    let p1 = pwd_policy.get(0).unwrap().parse::<usize>().unwrap();
+    let p2 = pwd_policy.get(1).unwrap().parse::<usize>().unwrap();
 
     let letter = pwd_data.get(1).unwrap().chars().nth(0).unwrap();
 
     let pwd = pwd_data.get(2).unwrap();
 
     PwdData {
-        p1: min_let,
-        p2: max_let,
+        p1,
+        p2,
         letter,
         pwd: pwd.clone(),
     }
