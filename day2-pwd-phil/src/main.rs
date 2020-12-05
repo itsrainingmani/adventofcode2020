@@ -14,7 +14,7 @@ fn main() {
         .map(|s| String::from(s))
         .collect::<Vec<_>>()
         .chunks_exact(3)
-        .map(|c| Vec::from(c))
+        .map(|c| process(&Vec::from(c)))
         .collect::<Vec<_>>();
 
     // part one
@@ -32,7 +32,14 @@ fn main() {
     );
 }
 
-fn pt_one_validate(pwd_data: &Vec<String>) -> bool {
+struct PwdData {
+    p1: usize,
+    p2: usize,
+    letter: char,
+    pwd: String,
+}
+
+fn process(pwd_data: &Vec<String>) -> PwdData {
     let pwd_policy = pwd_data.get(0).unwrap().split('-').collect::<Vec<_>>();
     let min_let = pwd_policy.get(0).unwrap().parse::<usize>().unwrap();
     let max_let = pwd_policy.get(1).unwrap().parse::<usize>().unwrap();
@@ -41,22 +48,27 @@ fn pt_one_validate(pwd_data: &Vec<String>) -> bool {
 
     let pwd = pwd_data.get(2).unwrap();
 
-    let num_letters = pwd.chars().filter(|c| *c == letter).count();
-
-    num_letters >= min_let && num_letters <= max_let
+    PwdData {
+        p1: min_let,
+        p2: max_let,
+        letter,
+        pwd: pwd.clone(),
+    }
 }
 
-fn pt_two_validate(pwd_data: &Vec<String>) -> bool {
-    let pwd_policy = pwd_data.get(0).unwrap().split('-').collect::<Vec<_>>();
-    let pos1 = pwd_policy.get(0).unwrap().parse::<usize>().unwrap() - 1;
-    let pos2 = pwd_policy.get(1).unwrap().parse::<usize>().unwrap() - 1;
+fn pt_one_validate(pwd_data: &PwdData) -> bool {
+    let num_letters = pwd_data
+        .pwd
+        .chars()
+        .filter(|c| *c == pwd_data.letter)
+        .count();
 
-    let letter = pwd_data.get(1).unwrap().chars().nth(0).unwrap();
+    num_letters >= pwd_data.p1 && num_letters <= pwd_data.p2
+}
 
-    let pwd = pwd_data.get(2).unwrap();
-
-    let is_char_p1 = pwd.chars().nth(pos1).unwrap() == letter;
-    let is_char_p2 = pwd.chars().nth(pos2).unwrap() == letter;
+fn pt_two_validate(pwd_data: &PwdData) -> bool {
+    let is_char_p1 = pwd_data.pwd.chars().nth(pwd_data.p1 - 1).unwrap() == pwd_data.letter;
+    let is_char_p2 = pwd_data.pwd.chars().nth(pwd_data.p2 - 1).unwrap() == pwd_data.letter;
 
     !(is_char_p1 && is_char_p2) && !(!is_char_p1 && !is_char_p2)
 }
