@@ -15,9 +15,17 @@ fn main() {
     let trees: Vec<_> = contents.split_ascii_whitespace().collect();
     let slope: Slope = (3, 1);
     part_one(&trees, slope);
+
+    let slopes: [Slope; 5] = [(3, 1), (5, 1), (1, 1), (7, 1), (1, 2)];
+    let mut encounter_vec: Vec<usize> = Vec::new();
+    for sl in slopes.iter() {
+        encounter_vec.push(part_one(&trees, *sl));
+    }
+
+    println!("{}", encounter_vec.iter().fold(1, |acc, x| acc * x));
 }
 
-fn part_one(trees: &Vec<&str>, slope: Slope) {
+fn part_one(trees: &Vec<&str>, slope: Slope) -> usize {
     let mut cur_pos: Pos = (0, 0); // Current position of tobaggons
     let size_of_treeline = trees.get(0).expect("Something went wrong").len();
     let mut encounters: usize = 0;
@@ -36,6 +44,7 @@ fn part_one(trees: &Vec<&str>, slope: Slope) {
     }
 
     println!("Number of tree encounters: {}", encounters);
+    encounters
 }
 
 fn get_at_location(trees: &Vec<&str>, x: usize, y: usize) -> Option<char> {
