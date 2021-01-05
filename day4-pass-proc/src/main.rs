@@ -9,12 +9,17 @@ fn main() {
         fs::read_to_string(input_filename).expect("Something went wrong reading the file");
 
     // Split each passport into a vector of key:value pairs
-    let passports_vec: Vec<Vec<&str>> = contents
+    let passports_vec: Vec<String> = contents
         .split("\n\n")
         .collect::<Vec<&str>>()
         .iter()
-        .map(|s| s.split_ascii_whitespace().collect())
+        .map(|s| s.split_ascii_whitespace().collect::<Vec<&str>>().join(","))
         .collect();
+
+    let expected_fields = vec!["byr", "eyr", "iyr", "hgt", "hcl", "ecl", "pid", "cid"];
+
+    // Closure that checks if the passport is valid
+    let passport_valid = |p: String| -> bool { true };
 
     println!("{:#?}", passports_vec);
 }
