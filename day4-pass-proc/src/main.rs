@@ -16,10 +16,23 @@ fn main() {
         .map(|s| s.split_ascii_whitespace().collect::<Vec<&str>>().join(","))
         .collect();
 
-    let expected_fields = vec!["byr", "eyr", "iyr", "hgt", "hcl", "ecl", "pid", "cid"];
-
     // Closure that checks if the passport is valid
-    let passport_valid = |p: String| -> bool { true };
+    fn passport_valid(p: &String) -> bool {
+        let expected_fields = vec!["byr", "eyr", "iyr", "hgt", "hcl", "ecl", "pid"];
+        let mut count = 0;
+        for e in expected_fields {
+            if p.contains(e) {
+                count += 1;
+            }
+        }
 
-    println!("{:#?}", passports_vec);
+        count >= 7
+    }
+
+    println!(
+        "{:#?}",
+        passports_vec.iter().filter(|p| passport_valid(p)).count()
+    );
+
+    // println!("{:#?}", passports_vec);
 }
