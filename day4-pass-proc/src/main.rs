@@ -37,5 +37,17 @@ fn main() {
 
     println!("{:#?}", passports_vec.len());
 
+    fn passport_valid_part2(p: &String) -> bool {
+        let expected_fields = vec!["byr", "eyr", "iyr", "hgt", "hcl", "ecl", "pid"];
+
+        let p: Vec<(&str, &str)> = p
+            .split(',')
+            .collect::<Vec<&str>>()
+            .iter()
+            .map(|v| v.split_at(v.find(':').unwrap()))
+            .collect();
+        true
+    }
+
     // println!("{:#?}", passports_vec);
 }
