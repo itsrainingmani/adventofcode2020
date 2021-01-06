@@ -9,7 +9,7 @@ fn main() {
         fs::read_to_string(input_filename).expect("Something went wrong reading the file");
 
     // Split each passport into a vector of key:value pairs
-    let passports_vec: Vec<String> = contents
+    let mut passports_vec: Vec<String> = contents
         .split("\n\n")
         .collect::<Vec<&str>>()
         .iter()
@@ -17,7 +17,7 @@ fn main() {
         .collect();
 
     // Closure that checks if the passport is valid
-    fn passport_valid(p: &String) -> bool {
+    fn passport_valid_part1(p: &String) -> bool {
         let expected_fields = vec!["byr", "eyr", "iyr", "hgt", "hcl", "ecl", "pid"];
         let mut count = 0;
         for e in expected_fields {
@@ -29,10 +29,13 @@ fn main() {
         count >= 7
     }
 
-    println!(
-        "{:#?}",
-        passports_vec.iter().filter(|p| passport_valid(p)).count()
-    );
+    passports_vec = passports_vec
+        .iter()
+        .cloned()
+        .filter(|p| passport_valid_part1(p))
+        .collect();
+
+    println!("{:#?}", passports_vec.len());
 
     // println!("{:#?}", passports_vec);
 }
