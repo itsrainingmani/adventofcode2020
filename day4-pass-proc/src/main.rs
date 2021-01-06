@@ -38,15 +38,48 @@ fn main() {
     println!("{:#?}", passports_vec.len());
 
     fn passport_valid_part2(p: &String) -> bool {
-        let expected_fields = vec!["byr", "eyr", "iyr", "hgt", "hcl", "ecl", "pid"];
+        // let expected_fields = vec!["byr", "eyr", "iyr", "hgt", "hcl", "ecl", "pid"];
+        let mut count = 0;
 
-        let p: Vec<(&str, &str)> = p
+        let passport: Vec<(&str, &str)> = p
             .split(',')
             .collect::<Vec<&str>>()
             .iter()
             .map(|v| v.split_at(v.find(':').unwrap()))
             .collect();
-        true
+
+        for (field, value) in passport {
+            match field {
+                "byr" => {
+                    let byr = value.parse::<i32>().unwrap();
+                    if byr >= 1920 && byr <= 2002 {
+                        count += 1
+                    }
+                }
+                "eyr" => {
+                    let eyr = value.parse::<i32>().unwrap();
+                    if eyr >= 2010 && eyr <= 2020 {
+                        count += 1
+                    }
+                }
+                "iyr" => {
+                    let iyr = value.parse::<i32>().unwrap();
+                    if iyr >= 2020 && iyr <= 2030 {
+                        count += 1
+                    }
+                }
+                "hgt" => {}
+                "hcl" => {}
+                "ecl" => match value {
+                    "amb" | "blu" | "brn" | "gry" | "grn" | "hzl" | "oth" => count += 1,
+                    _ => {}
+                },
+                "pid" => {}
+                _ => {}
+            }
+        }
+
+        count >= 7
     }
 
     // println!("{:#?}", passports_vec);
