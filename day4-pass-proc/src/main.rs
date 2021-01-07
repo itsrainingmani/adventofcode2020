@@ -69,7 +69,19 @@ fn main() {
                         count += 1
                     }
                 }
-                "hgt" => {}
+                "hgt" => {
+                    let len = value.len() - 2;
+                    let height = value[..len].parse::<i32>().unwrap();
+                    if value.contains("cm") {
+                        if height >= 150 && height <= 193 {
+                            count += 1
+                        }
+                    } else if value.contains("in") {
+                        if height >= 59 && height <= 76 {
+                            count += 1
+                        }
+                    }
+                }
                 "hcl" => {
                     if value.len() == 7 {
                         // Check for Regex match -> # followed by exactly six characters 0-9 or a-f
