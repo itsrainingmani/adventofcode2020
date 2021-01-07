@@ -70,12 +70,28 @@ fn main() {
                     }
                 }
                 "hgt" => {}
-                "hcl" => if value.len() == 7 {},
+                "hcl" => {
+                    if value.len() == 7 {
+                        // Check for Regex match -> # followed by exactly six characters 0-9 or a-f
+                        let re = Regex::new(r"#[0-9a-f]{6}").unwrap();
+                        if re.is_match(value) {
+                            count += 1
+                        }
+                    }
+                }
                 "ecl" => match value {
                     "amb" | "blu" | "brn" | "gry" | "grn" | "hzl" | "oth" => count += 1,
                     _ => {}
                 },
-                "pid" => {}
+                "pid" => {
+                    if value.len() == 9 {
+                        // Check for Regex match -> a nine-digit number, including leading zeroes
+                        let re = Regex::new(r"[0-9]{9}").unwrap();
+                        if re.is_match(value) {
+                            count += 1
+                        }
+                    }
+                }
                 _ => {}
             }
         }
