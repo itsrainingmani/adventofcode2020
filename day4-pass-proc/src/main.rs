@@ -1,3 +1,4 @@
+use regex::Regex;
 use std::fs;
 
 fn main() {
@@ -69,7 +70,7 @@ fn main() {
                     }
                 }
                 "hgt" => {}
-                "hcl" => {}
+                "hcl" => if value.len() == 7 {},
                 "ecl" => match value {
                     "amb" | "blu" | "brn" | "gry" | "grn" | "hzl" | "oth" => count += 1,
                     _ => {}
